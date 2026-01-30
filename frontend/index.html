@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuteur Éducatif Personnalisé - Lycée</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🎓</span>
+                    <span class="logo-text">Tuteur Éducatif</span>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-section="chat">
+                        <span>💬</span> Chat
+                    </button>
+                    <button class="nav-btn" data-section="quiz">
+                        <span>📝</span> Quiz
+                    </button>
+                    <button class="nav-btn" data-section="progress">
+                        <span>📊</span> Progression
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Section Chat -->
+            <section id="chat-section" class="section active">
+                <div class="section-header">
+                    <h1 class="section-title">Discute avec ton tuteur IA</h1>
+                    <p class="section-subtitle">Pose tes questions et reçois des explications personnalisées</p>
+                </div>
+
+                <div class="subject-selector">
+                    <button class="subject-btn active" data-subject="histoire_geo">
+                        <span class="subject-icon">🌍</span>
+                        <span class="subject-name">Histoire-Géographie</span>
+                    </button>
+                    <button class="subject-btn" data-subject="svt">
+                        <span class="subject-icon">🧬</span>
+                        <span class="subject-name">SVT</span>
+                    </button>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="welcome-message">
+                            <div class="welcome-icon">👋</div>
+                            <h2>Bonjour ! Je suis ton tuteur personnel</h2>
+                            <p>Sélectionne une matière et pose-moi tes questions. Je suis là pour t'aider à réussir !</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <textarea 
+                                id="chat-input" 
+                                class="chat-input" 
+                                placeholder="Pose ta question ici..."
+                                rows="1"
+                            ></textarea>
+                            <button id="send-btn" class="send-btn">
+                                <span class="send-icon">➤</span>
+                            </button>
+                        </div>
+                        <button id="clear-history-btn" class="clear-history-btn">
+                            🗑️ Effacer l'historique
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Quiz -->
+            <section id="quiz-section" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Quiz Interactifs</h1>
+                    <p class="section-subtitle">Teste tes connaissances et améliore-toi</p>
+                </div>
+
+                <!-- Générateur de Quiz -->
+                <div id="quiz-generator" class="quiz-generator">
+                    <div class="card">
+                        <h3 class="card-title">Créer un nouveau quiz</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Matière</label>
+                            <div class="subject-selector-quiz">
+                                <button class="subject-btn-quiz active" data-subject="histoire_geo">
+                                    🌍 Histoire-Géo
+                                </button>
+                                <button class="subject-btn-quiz" data-subject="svt">
+                                    🧬 SVT
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="quiz-topic">Sujet du quiz</label>
+                            <input 
+                                type="text" 
+                                id="quiz-topic" 
+                                class="form-input" 
+                                placeholder="Ex: La Révolution française, La photosynthèse..."
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="quiz-difficulty">Difficulté</label>
+                            <select id="quiz-difficulty" class="form-select">
+                                <option value="facile">Facile</option>
+                                <option value="moyen" selected>Moyen</option>
+                                <option value="difficile">Difficile</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="quiz-num-questions">Nombre de questions</label>
+                            <input 
+                                type="number" 
+                                id="quiz-num-questions" 
+                                class="form-input" 
+                                value="5" 
+                                min="3" 
+                                max="10"
+                            >
+                        </div>
+
+                        <button id="generate-quiz-btn" class="btn btn-primary">
+                            ✨ Générer le quiz
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Display -->
+                <div id="quiz-display" class="quiz-display" style="display: none;">
+                    <div class="card">
+                        <div class="quiz-header">
+                            <h3 id="quiz-title" class="quiz-title"></h3>
+                            <button id="back-to-generator" class="btn-secondary">← Retour</button>
+                        </div>
+                        
+                        <div id="quiz-questions" class="quiz-questions"></div>
+                        
+                        <button id="submit-quiz-btn" class="btn btn-primary">
+                            ✅ Soumettre mes réponses
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-results" class="quiz-results" style="display: none;">
+                    <div class="card">
+                        <div class="results-header">
+                            <div id="results-score" class="results-score"></div>
+                            <div id="results-performance" class="results-performance"></div>
+                        </div>
+                        
+                        <div id="results-details" class="results-details"></div>
+                        
+                        <button id="new-quiz-btn" class="btn btn-primary">
+                            🔄 Nouveau quiz
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Progression -->
+            <section id="progress-section" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Ta Progression</h1>
+                    <p class="section-subtitle">Suis ton évolution et tes performances</p>
+                </div>
+
+                <!-- Statistiques Globales -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-value" id="total-points">0</div>
+                        <div class="stat-label">Points totaux</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-value" id="total-quizzes">0</div>
+                        <div class="stat-label">Quiz complétés</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-value" id="level-name">Débutant</div>
+                        <div class="stat-label">Niveau actuel</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-value" id="badges-count">0</div>
+                        <div class="stat-label">Badges obtenus</div>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="card">
+                    <h3 class="card-title">🏅 Tes badges</h3>
+                    <div id="badges-container" class="badges-container">
+                        <p class="text-muted">Continue à apprendre pour débloquer des badges !</p>
+                    </div>
+                </div>
+
+                <!-- Progression par matière -->
+                <div class="subjects-progress">
+                    <!-- Histoire-Géo -->
+                    <div class="card">
+                        <h3 class="card-title">🌍 Histoire-Géographie</h3>
+                        <div class="progress-stats">
+                            <div class="progress-stat">
+                                <span class="progress-label">Points</span>
+                                <span class="progress-value" id="hg-points">0</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="progress-label">Quiz</span>
+                                <span class="progress-value" id="hg-quizzes">0</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="progress-label">Moyenne</span>
+                                <span class="progress-value" id="hg-avg">0%</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="progress-label">Record</span>
+                                <span class="progress-value" id="hg-best">0%</span>
+                            </div>
+                        </div>
+                        <div id="hg-recent" class="recent-quizzes"></div>
+                    </div>
+
+                    <!-- SVT -->
+                    <div class="card">
+                        <h3 class="card-title">🧬 Sciences de la Vie et de la Terre</h3>
+                        <div class="progress-stats">
+                            <div class="progress-stat">
+                                <span class="progress-label">Points</span>
+                                <span class="progress-value" id="svt-points">0</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="progress-label">Quiz</span>
+                                <span class="progress-value" id="svt-quizzes">0</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="progress-label">Moyenne</span>
+                                <span class="progress-value" id="svt-avg">0%</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="progress-label">Record</span>
+                                <span class="progress-value" id="svt-best">0%</span>
+                            </div>
+                        </div>
+                        <div id="svt-recent" class="recent-quizzes"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tuteur Éducatif Personnalisé - Propulsé par l'IA</p>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Chargement...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
