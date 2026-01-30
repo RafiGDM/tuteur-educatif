@@ -1,5 +1,6 @@
 // Configuration
-const API_URL = 'https://tuteur-educatif-backend.onrender.com';
+const API_URL = 'https://tuteur-educatif.onrender.com';
+
 let currentSubject = 'histoire_geo';
 let currentQuizSubject = 'histoire_geo';
 let currentQuizId = null;
